@@ -1,0 +1,23 @@
+LICENSE
+  e217d3ef94310194 3-4,6-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.2",
+  "base_commit_sha": "660d69d193dbcc77ff534497bd02467290a18288",
+  "prompts": {
+    "e217d3ef94310194": {
+      "agent_id": {
+        "tool": "droid",
+        "id": "70b68422-6414-431f-a4ae-a652dfbfcaad",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Vaman Kamath",
+      "messages": [],
+      "total_additions": 36,
+      "total_deletions": 5,
+      "accepted_lines": 36,
+      "overriden_lines": 0
+    }
+  }
+}
