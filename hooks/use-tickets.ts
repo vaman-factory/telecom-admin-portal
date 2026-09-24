@@ -70,19 +70,23 @@ export function useTickets(filters: TicketFilters = {}) {
 
   const fetchTickets = useCallback(
     async (reset = true) => {
+      // pageRef must only ever name a page already merged into state. Advancing
+      // it before the request means a failed page is never requested again.
+      const targetPage = reset ? 0 : pageRef.current + 1
+
       try {
         if (reset) {
           setLoading(true)
-          pageRef.current = 0
         } else {
           setLoadingMore(true)
-          pageRef.current += 1
         }
 
-        log.info({ page: pageRef.current, filters }, "Fetching tickets")
-        const res = await fetch(buildUrl(pageRef.current))
+        log.info({ page: targetPage, filters }, "Fetching tickets")
+        const res = await fetch(buildUrl(targetPage))
         if (!res.ok) throw new Error("Failed to fetch tickets")
         const data: PagedResponse = await res.json()
+
+        pageRef.current = targetPage
 
         if (reset) {
           setTickets(data.content || [])
