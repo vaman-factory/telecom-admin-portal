@@ -52,18 +52,22 @@ export function useUsage(filters: UsageFilters = {}) {
 
   const fetchRecords = useCallback(
     async (reset = true) => {
+      // pageRef must only ever name a page already merged into state. Advancing
+      // it before the request means a failed page is never requested again.
+      const targetPage = reset ? 0 : pageRef.current + 1
+
       try {
         if (reset) {
           setLoading(true)
-          pageRef.current = 0
         } else {
           setLoadingMore(true)
-          pageRef.current += 1
         }
 
-        const res = await fetch(buildUrl(pageRef.current))
+        const res = await fetch(buildUrl(targetPage))
         if (!res.ok) throw new Error("Failed to fetch usage records")
         const data: PagedResponse = await res.json()
+
+        pageRef.current = targetPage
 
         if (reset) {
           setRecords(data.content || [])
